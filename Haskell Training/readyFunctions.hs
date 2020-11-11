@@ -1,0 +1,17 @@
+l1 = tail [1,2,3,4]
+l2 = head [1,2,3,4]
+l3 = [1,2,3] ++ [4,5,6]
+emp1 = null []
+emp2 = null [1]
+s1 = length [5,6,7,8]
+l4 = init [1,2,3,4,5]
+l5 = drop 2 [45,67,89,32,123]
+l6 = lines "Car"
+l7 = take 2 [1,2,3,4,5,6,7]
+l8 = words "Learning Haskell"
+l9 = reverse [1,2,3,4,5]
+l10 = replicate 2 "Haskell"
+l11 = splitAt 2 "Haskell"
+l12 = zip [1,2,3,4] [5,6,7,8]
+l13 = zip [1,2,3,4] [5,6,7]
+l14 = unzip [(1,2), (3,4)]
