@@ -7,11 +7,11 @@
 
 moveTiringa(M, Movement, TPosition, WPosition, R) :- 
     defineNewPosition(M, Movement, TPosition, [NX,NY]),
-    getElementPosition(Mat, NX, NY, E),
+    getElementPosition(M, NX, NY, E),
     setElement(M, TPosition, " ", NM1),
-    (equalsPosition([NX,NY], WPosition) -> setElement(NM1, [NX,NY], "W", NM2), R = [0, NM2];
-    (not(checkIsNotExit(M, [NX,NY]))) -> R = [2, NM1];
-    setElement(NM1, [NX,NY], "T", NM2), R = [1, NM2]).
+    (equalsPosition([NX,NY], WPosition) -> setElement(NM1, [NX,NY], "W", NM2), R = [0, [NX,NY], NM2];
+    (not(checkIsNotExit(M, [NX,NY]))) -> R = [2, [NX,NY], NM1];
+    setElement(NM1, [NX,NY], "T", NM2), R = [1, [NX,NY], NM2]).
 
 defineNewPosition(M, Movement, Position, R) :-
     (Movement =:= "w" -> upPosition(M, Position, R);

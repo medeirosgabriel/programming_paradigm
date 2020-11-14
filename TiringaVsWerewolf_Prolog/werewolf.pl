@@ -1,6 +1,4 @@
-﻿%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-:- include('util.pl').
+﻿:- include('util.pl').
 :- include('positions.pl').
 
 % 0 == LOST THE GAME
@@ -10,12 +8,13 @@ moveWerewolf(M, TPosition, WPosition, R) :-
     allPositions(M, WPosition, PL),
     filterPositions(M, PL, WPosition, FL),
     euclideanList(FL, TPosition, EL),
-    sort(2, <, EL, [H|_]), % Review the list order.
+    bubble_sort(EL, L),
+    [H|T] = L,
     [NX,NY,_] = H,
     setElement(M, WPosition, " ", NM1),
     setElement(NM1, [NX,NY], "W", NM2),
-    (equalsPosition([NX,NY], TPosition) -> R = [0, NM2];
-    R = [1, NM2]).
+    (equalsPosition([NX,NY], TPosition) -> R = [0, [NX,NY], NM2];
+    R = [1, [NX,NY], NM2]).
 
 
 allPositions(M, Position, PL) :- 
@@ -45,7 +44,21 @@ euclideanList([H|T], TPosition, R) :-
     euclideanDistance(TPosition, H, ED),
     append([ED], EL, R).
 
-/*test :- 
+% Bubble_Sort
+
+bubble_sort(List,Sorted):-b_sort(List,[],Sorted).
+b_sort([],Acc,Acc).
+b_sort([H|T],Acc,Sorted):-bubble(H,T,NT,Max),b_sort(NT,[Max|Acc],Sorted).
+       
+bubble(X,[],[],X).
+bubble(X,[Y|T],[Y|NT],Max):- 
+    [A1,B1,C1] = X, [A2,B2,C2] = Y, 
+    C1 > C2, bubble(X,T,NT,Max).
+bubble(X,[Y|T],[X|NT],Max):-
+    [A1,B1,C1] = X, [A2,B2,C2] = Y, 
+    C1 =< C2, bubble(Y,T,NT,Max).
+
+test :- 
 
     M1=[["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
         ["T", " ", " ", " ", "#", "#", " ", "#", "#", "#", "#", "#", " ", " ", " ", "#"],
@@ -74,6 +87,7 @@ euclideanList([H|T], TPosition, R) :-
         ["#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "#", "#", "#", "#", "#"],
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]],
 
-    moveWerewolf(M1, [1,0], [1,1], R),
+    L = [[1,2,13.456],[2,6,7.89432],[15,6,54.78987]],
+    bubble_sort(L, R),
 
-    write(R).*/
+    write(R).
