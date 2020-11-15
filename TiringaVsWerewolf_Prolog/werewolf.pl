@@ -16,7 +16,6 @@ moveWerewolf(M, TPosition, WPosition, R) :-
     (equalsPosition([NX,NY], TPosition) -> R = [0, [NX,NY], NM2];
     R = [1, [NX,NY], NM2]).
 
-
 allPositions(M, Position, PL) :- 
     leftPosition(M, Position, LP),
     rightPosition(M, Position, RP),

@@ -26,8 +26,8 @@ startGame(M, TP, WP, Diff, Name, Count) :-
                  (S2 =:= 0 -> printMatrix(NM2), writeln("Perdeu Playboy!");
                   S2 =:= 1 -> ifTryHard(Diff, NM2, S2, [NTX, NTY], [NWX1, NWY1], RT3),
                              [S3, [NWX2, NWY2], NM3] = RT3,
-                             (S2 =:= 0 -> printMatrix(NM3), writeln("Perdeu Playboy!");
-                              S2 =:= 1 -> NCount is Count + 1, 
+                             (S3 =:= 0 -> printMatrix(NM3), writeln("Perdeu Playboy!");
+                              S3 =:= 1 -> NCount is Count + 1, 
                                           startGame(NM3, [NTX,NTY], [NWX2, NWY2], Diff, Name, NCount)))).
 
 ifTryHard(Diff, M, S, TPosition, WPosition, R) :- 

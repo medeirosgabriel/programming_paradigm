@@ -1,9 +1,8 @@
-﻿players(R) :-
+﻿getTheBestPlayer(R) :-
     read_file_to_string("ranking.txt", Players, []),
     split_string(Players, "\n", "", PlayersList),
-    nth0(0, PlayersList, Verif),
     splitPlayer(PlayersList, PlayersList2),
-    sort(1, @<, PlayersList2, SortedPlayers),
+    bubble_sort(PlayersList2, SortedPlayers),
     nth0(0, SortedPlayers, R).
 
 splitPlayer([], R) :- R = [].
@@ -15,6 +14,18 @@ splitPlayer([H|T], R) :-
     splitPlayer(T, NP),
     append([L], NP, R).
 
-test :-
-    players(R),
-    writeln(R).
+bubble_sort(List,Sorted):-b_sort(List,[],Sorted).
+b_sort([],Acc,Acc).
+b_sort([H|T],Acc,Sorted):-bubble(H,T,NT,Max),b_sort(NT,[Max|Acc],Sorted).
+       
+bubble(X,[],[],X).
+bubble(X,[Y|T],[Y|NT],Max):- 
+    [A1,B1] = X, [A2,B2] = Y, 
+    B1 > B2, bubble(X,T,NT,Max).
+bubble(X,[Y|T],[X|NT],Max):-
+    [A1,B1] = X, [A2,B2] = Y, 
+    B1 =< B2, bubble(Y,T,NT,Max).
+
+/*test :-
+    getTheBestPlayer(R),
+    writeln(R).*/
