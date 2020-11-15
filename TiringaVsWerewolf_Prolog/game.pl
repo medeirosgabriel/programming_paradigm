@@ -19,15 +19,27 @@ startGame(M, TP, WP, Diff, Name, Count) :-
     read_line_to_string(user_input, Direction),
     moveTiringa(M, Direction, TP, WP, RT),
     [S1, [NTX,NTY], NM1] = RT,
-    moveWerewolf(NM1, [NTX, NTY], WP, RT2),
-    [S2, [NWX1, NWY1], NM2] = RT2,
-    ifTryHard(Diff, NM2, S2, [NTX, NTY], [NWX1, NWY1], RT3),
-    [S3, [NWX2, NWY2], NM3] = RT3,
-    NCount is Count + 1,
-    startGame(NM3, [NTX,NTY], [NWX2, NWY2], Diff, Name, NCount).
+    (S1 =:= 0 -> printMatrix(NM1), writeln("Perdeu Playboy!");
+     S1 =:= 2 -> printMatrix(NM1), writeln("Voce ganhou!"), writePlayer(Name, Count);
+     S1 =:= 1 -> moveWerewolf(NM1, [NTX, NTY], WP, RT2),
+                 [S2, [NWX1, NWY1], NM2] = RT2,
+                 (S2 =:= 0 -> printMatrix(NM2), writeln("Perdeu Playboy!");
+                  S2 =:= 1 -> ifTryHard(Diff, NM2, S2, [NTX, NTY], [NWX1, NWY1], RT3),
+                             [S3, [NWX2, NWY2], NM3] = RT3,
+                             (S2 =:= 0 -> printMatrix(NM3), writeln("Perdeu Playboy!");
+                              S2 =:= 1 -> NCount is Count + 1, 
+                                          startGame(NM3, [NTX,NTY], [NWX2, NWY2], Diff, Name, NCount)))).
 
 ifTryHard(Diff, M, S, TPosition, WPosition, R) :- 
     (Diff =:= "2" -> moveWerewolf(M, TPosition, WPosition, NP), R = NP;
     R = [S, WPosition, M]).
+
+writePlayer(Name, Count) :-
+    open("ranking.txt", write, Out),
+    string_concat(Name, " ", Name_),
+    number_string(Count, StrCount),
+    string_concat(Name_, StrCount, Player),
+    write(Out, Player),
+    close(Out).
 
 :- prepareGame("1", "Gabriel").
