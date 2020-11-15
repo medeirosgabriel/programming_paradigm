@@ -1,5 +1,4 @@
-﻿
-:- include('util.pl').
+﻿:- include('util.pl').
 :- include('tiringa.pl').
 :- include('maps.pl').
 :- include('werewolf.pl').
@@ -35,11 +34,12 @@ ifTryHard(Diff, M, S, TPosition, WPosition, R) :-
     R = [S, WPosition, M]).
 
 writePlayer(Name, Count) :-
-    open("ranking.txt", write, Out),
+    open("ranking.txt", append, Out),
     string_concat(Name, " ", Name_),
     number_string(Count, StrCount),
     string_concat(Name_, StrCount, Player),
-    write(Out, Player),
+    string_concat(Player, "\n", FPlayer),
+    write(Out, FPlayer),
     close(Out).
 
 :- prepareGame("1", "Gabriel").
