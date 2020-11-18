@@ -42,4 +42,8 @@ writePlayer(Name, Count) :-
     write(Out, FPlayer),
     close(Out).
 
-:- prepareGame("1", "Gabriel").
+/*test :- 
+
+    prepareGame("2", "Gabriel").
+    
+*/

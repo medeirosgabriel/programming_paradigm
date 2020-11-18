@@ -1,6 +1,99 @@
-﻿getTheBestPlayer(R) :-
+﻿:- include('game.pl').
+
+howToPlay() :-
+    writeln("             COMO JOGAR?             "),
+    writeln(""),
+    writeln("  O JOGO CONSISTE EM FAZER  TIRINGA  "),
+    writeln("  ESCAPAR DA CHÁCARA (CHEGAR AO S),  "),
+    writeln("  ANTES QUE O LOBISOMEM O PEGUE.     "),
+    writeln(""),
+    writeln("  REPRESENTAÇÃO :"),
+    writeln("    T - TIRINGA"),
+    writeln("    W - LOBISOMEM"),
+    writeln("    S - SAÍDA"),
+    writeln(""),
+    writeln("  COMANDOS :"),
+    writeln("    W - CIMA"),
+    writeln("    A - ESQUERDA"),
+    writeln("    S - BAIXO"),
+    writeln("    D - DIREITA"),
+    writeln(""),
+    writeln("  M - MENU"),
+    writeln(""),
+    read_line_to_string(user_input, Option),
+    howToPlayAux(Option).
+
+howToPlayAux(Opt) :-
+    (Opt =:= "m" -> menu();
+    howToPlay).
+
+winner() :-
+    writeln("            MELHOR TEMPO             "),
+    writeln(""),
+    write("            "),
+    (getTheBestPlayer(R) -> writeln(R); writeln("")),
+    writeln(""),
+    writeln(" M - MENU"),
+    writeln(""),
+    read_line_to_string(user_input, Option),
+    winnerAux(Option).
+
+winnerAux(Opt) :-
+    (Opt =:= "m" -> menu();
+    winner).
+
+difficulty() :-
+    writeln(""),
+    writeln("             DIFICULDADE             "),
+    writeln(""),
+    writeln(" ESCOLHA UMA DIFICULDADE"),
+    writeln(""),
+    writeln(" 1 - FÁCIL"),
+    writeln(" 2 - TRYHARD"),
+    writeln(""),
+    writeln(" M - MENU"),
+    writeln(""),
+    read_line_to_string(user_input, Diff),
+    diffAux(Diff).
+
+diffAux(Diff) :-
+    (Diff =:= "m" -> menu();
+    Diff =:= "1" -> startGame(Diff);
+    Diff =:= "2" -> startGame(Diff);
+    difficulty()).
+
+startGame(Diff):-
+    writeln(""),
+    write(" INFORME 3 LETRAS PARA REPRESENTAÇÃO: "),
+    read_line_to_string(user_input, Name),
+    prepareGame(Diff, Name).
+
+menu() :-
+    writeln(""),
+    writeln("        TIRINGA VS. WEREWOLF         "),
+    writeln(""),
+    writeln(" 1 - INICIAR JOGO"),
+    writeln(" 2 - VENCEDOR"),
+    writeln(" 3 - COMO JOGAR?"),
+    writeln(" S - SAIR"),
+    writeln(""),
+    read_line_to_string(user_input, Option),
+    menuAux(Option).
+
+menuAux(Option) :-
+    (Option =:= "1" -> difficulty(); 
+    Option =:= "2" -> winner();
+    Option =:= "3" -> howToPlay();
+    Option =:= "s" -> writeln("");
+    menu()).
+
+main :-
+  menu().
+
+/* Select the best player */ 
+
+getTheBestPlayer(R) :-
     read_file_to_string("ranking.txt", Players, []),
-    write(Players),
     split_string(Players, "\n", "", PlayersList),
     splitPlayer(PlayersList, PlayersList2),
     bubble_sort(PlayersList2, SortedPlayers),
@@ -28,5 +121,4 @@ bubble(X,[Y|T],[X|NT],Max):-
     B1 =< B2, bubble(Y,T,NT,Max).
 
 test :-
-    getTheBestPlayer(R),
-    writeln(R).
+    winner().
