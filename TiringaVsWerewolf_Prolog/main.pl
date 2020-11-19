@@ -28,7 +28,7 @@ howToPlayAux(Opt) :-
     howToPlay).
 
 winner() :-
-    writeln("            MELHOR TEMPO             "),
+    writeln("   MELHOR NÚMERO DE MOVIMENTAÇÕES    "),
     writeln(""),
     write("            "),
     (getTheBestPlayer(R) -> writeln(R); writeln("")),
@@ -84,7 +84,7 @@ menuAux(Option) :-
     (Option =:= "1" -> difficulty(); 
     Option =:= "2" -> winner();
     Option =:= "3" -> howToPlay();
-    Option =:= "s" -> writeln("");
+    Option =:= "s" -> writeln(""), halt;
     menu()).
 
 main :-
@@ -99,7 +99,7 @@ getTheBestPlayer(R) :-
     bubble_sort(PlayersList2, SortedPlayers),
     nth0(0, SortedPlayers, R).
 
-splitPlayer([F], R) :- R = [].
+splitPlayer([_], R) :- R = [].
 splitPlayer([H|T], R) :-
     split_string(H, " ", "", Player),
     nth0(0, Player, Name), nth0(1, Player, N),
@@ -114,11 +114,11 @@ b_sort([H|T],Acc,Sorted):-bubble(H,T,NT,Max),b_sort(NT,[Max|Acc],Sorted).
        
 bubble(X,[],[],X).
 bubble(X,[Y|T],[Y|NT],Max):- 
-    [A1,B1] = X, [A2,B2] = Y, 
+    [_,B1] = X, [_,B2] = Y, 
     B1 > B2, bubble(X,T,NT,Max).
 bubble(X,[Y|T],[X|NT],Max):-
-    [A1,B1] = X, [A2,B2] = Y, 
+    [_,B1] = X, [_,B2] = Y, 
     B1 =< B2, bubble(Y,T,NT,Max).
 
-test :-
-    winner().
+/*test :-
+    winner().*/

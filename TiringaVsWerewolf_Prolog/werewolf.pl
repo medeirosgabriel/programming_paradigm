@@ -9,7 +9,7 @@ moveWerewolf(M, TPosition, WPosition, R) :-
     filterPositions(M, PL, WPosition, FL),
     euclideanList(FL, TPosition, EL),
     bubble_sort(EL, L),
-    [H|T] = L,
+    [H|_] = L,
     [NX,NY,_] = H,
     setElement(M, WPosition, " ", NM1),
     setElement(NM1, [NX,NY], "W", NM2),
@@ -46,15 +46,16 @@ euclideanList([H|T], TPosition, R) :-
 % Bubble_Sort
 
 bubble_sort(List,Sorted):-b_sort(List,[],Sorted).
+
 b_sort([],Acc,Acc).
 b_sort([H|T],Acc,Sorted):-bubble(H,T,NT,Max),b_sort(NT,[Max|Acc],Sorted).
        
 bubble(X,[],[],X).
 bubble(X,[Y|T],[Y|NT],Max):- 
-    [A1,B1,C1] = X, [A2,B2,C2] = Y, 
+    [_,_,C1] = X, [_,_,C2] = Y, 
     C1 > C2, bubble(X,T,NT,Max).
 bubble(X,[Y|T],[X|NT],Max):-
-    [A1,B1,C1] = X, [A2,B2,C2] = Y, 
+    [_,_,C1] = X, [_,_,C2] = Y, 
     C1 =< C2, bubble(Y,T,NT,Max).
 
 /*test :- 
