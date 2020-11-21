@@ -1,7 +1,8 @@
 ﻿:- include('game.pl').
 
 howToPlay() :-
-    writeln("             COMO JOGAR?             "),
+    tty_clear(),
+    writeln("\x1b[41m\x1b[37m             COMO JOGAR?             \x1b[0m"),
     writeln(""),
     writeln("  O JOGO CONSISTE EM FAZER  TIRINGA  "),
     writeln("  ESCAPAR DA CHÁCARA (CHEGAR AO S),  "),
@@ -28,7 +29,8 @@ howToPlayAux(Opt) :-
     howToPlay).
 
 winner() :-
-    writeln("   MELHOR NÚMERO DE MOVIMENTAÇÕES    "),
+    tty_clear(),
+    writeln("\x1b[41m\x1b[37m    MELHOR NÚMERO DE MOVIMENTAÇÕES    \x1b[0m"),
     writeln(""),
     write("            "),
     (getTheBestPlayer(R) -> writeln(R); writeln("")),
@@ -43,8 +45,9 @@ winnerAux(Opt) :-
     winner).
 
 difficulty() :-
+    tty_clear(),
     writeln(""),
-    writeln("             DIFICULDADE             "),
+    writeln("\x1b[41m\x1b[37m             DIFICULDADE             \x1b[0m"),
     writeln(""),
     writeln(" ESCOLHA UMA DIFICULDADE"),
     writeln(""),
@@ -63,14 +66,16 @@ diffAux(Diff) :-
     difficulty()).
 
 startGame(Diff):-
+    tty_clear(),
     writeln(""),
-    write(" INFORME 3 LETRAS PARA REPRESENTAÇÃO: "),
+    write("\x1b[41m\x1b[37m  INFORME 3 LETRAS PARA REPRESENTAÇÃO: \x1b[0m"),
     read_line_to_string(user_input, Name),
     prepareGame(Diff, Name).
 
 menu() :-
+    tty_clear(),
     writeln(""),
-    writeln("        TIRINGA VS. WEREWOLF         "),
+    writeln("\x1b[41m\x1b[37m        TIRINGA VS. WEREWOLF         \x1b[0m"),
     writeln(""),
     writeln(" 1 - INICIAR JOGO"),
     writeln(" 2 - VENCEDOR"),
@@ -119,6 +124,3 @@ bubble(X,[Y|T],[Y|NT],Max):-
 bubble(X,[Y|T],[X|NT],Max):-
     [_,B1] = X, [_,B2] = Y, 
     B1 =< B2, bubble(Y,T,NT,Max).
-
-/*test :-
-    winner().*/
