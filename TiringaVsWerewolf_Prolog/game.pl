@@ -37,7 +37,8 @@ ifTryHard(Diff, M, S, TPosition, WPosition, R) :-
 endGame(Diff, Name) :- 
     write("\x1b[41m\x1b[30mDeseja jogar novamente (s/n)? \x1b[0m"),
     read_line_to_string(user_input, Option),
-    (Option =:= "s" -> prepareGame(Diff, Name);
+    string_lower(Option, Option_),
+    (Option_ =:= "s" -> prepareGame(Diff, Name);
     writeln("\x1b[41m\x1b[30mAté a próxima, fi da peste!!\x1b[0m"), halt).
 
 writePlayer(Name, Count) :-

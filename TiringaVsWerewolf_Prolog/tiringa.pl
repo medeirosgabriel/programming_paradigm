@@ -14,8 +14,9 @@ moveTiringa(M, Movement, TPosition, WPosition, R) :-
     setElement(NM1, [NX,NY], "T", NM2), R = [1, [NX,NY], NM2]).
 
 defineNewPosition(M, Movement, Position, R) :-
-    (Movement =:= "w" -> upPosition(M, Position, R);
-    Movement =:= "a" -> leftPosition(M, Position, R);
-    Movement =:= "s" -> downPosition(M, Position, R);
-    Movement =:= "d" -> rightPosition(M, Position, R);
+    string_lower(Movement, Mov),
+    (Mov =:= "w" -> upPosition(M, Position, R);
+    Mov =:= "a" -> leftPosition(M, Position, R);
+    Mov =:= "s" -> downPosition(M, Position, R);
+    Mov =:= "d" -> rightPosition(M, Position, R);
     R = Position).

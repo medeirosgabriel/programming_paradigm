@@ -25,7 +25,8 @@ howToPlay() :-
     howToPlayAux(Option).
 
 howToPlayAux(Opt) :-
-    (Opt =:= "m" -> menu();
+    string_lower(Opt, Opt_),
+    (Opt_ =:= "m" -> menu();
     howToPlay).
 
 winner() :-
@@ -41,7 +42,8 @@ winner() :-
     winnerAux(Option).
 
 winnerAux(Opt) :-
-    (Opt =:= "m" -> menu();
+    string_lower(Opt, Opt_),
+    (Opt_ =:= "m" -> menu();
     winner).
 
 difficulty() :-
@@ -56,13 +58,14 @@ difficulty() :-
     writeln(""),
     writeln(" M - MENU"),
     writeln(""),
-    read_line_to_string(user_input, Diff),
-    diffAux(Diff).
+    read_line_to_string(user_input, Opt),
+    diffAux(Opt).
 
-diffAux(Diff) :-
-    (Diff =:= "m" -> menu();
-    Diff =:= "1" -> startGame(Diff);
-    Diff =:= "2" -> startGame(Diff);
+diffAux(Opt) :-
+    string_lower(Opt, Opt_),
+    (Opt_ =:= "m" -> menu();
+    Opt_ =:= "1" -> startGame(Opt_);
+    Opt_ =:= "2" -> startGame(Opt_);
     difficulty()).
 
 startGame(Diff):-
@@ -86,10 +89,11 @@ menu() :-
     menuAux(Option).
 
 menuAux(Option) :-
-    (Option =:= "1" -> difficulty(); 
-    Option =:= "2" -> winner();
-    Option =:= "3" -> howToPlay();
-    Option =:= "s" -> writeln(""), halt;
+    string_lower(Option, Opt_),
+    (Opt_ =:= "1" -> difficulty(); 
+    Opt_ =:= "2" -> winner();
+    Opt_ =:= "3" -> howToPlay();
+    Opt_ =:= "s" -> writeln(""), halt;
     menu()).
 
 main :-
